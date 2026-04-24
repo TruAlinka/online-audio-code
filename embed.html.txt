@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Embed Аудио/Видео Плеер</title>
+  <style>
+    html, body { margin: 0; padding: 0; }
+    audio, video { width: 100%; max-width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type') || '';
+    const src = params.get('src') || '';
+    const root = document.getElementById('root');
+    if (src) {
+      if (type === 'video') {
+        root.innerHTML = `<video controls src="${src}">Ваш браузер не поддерживает video.</video>`;
+      } else {
+        root.innerHTML = `<audio controls src="${src}">Ваш браузер не поддерживает audio.</audio>`;
+      }
+    } else {
+      root.innerHTML = `<strong style="color:red">Не указан src аудио/видео!</strong>`;
+    }
+  </script>
+</body>
+</html>
