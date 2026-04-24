@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Генератор iFrame из любого URL</title>
+  <style>
+    body { font-family: sans-serif; }
+    input, textarea { width: 500px; max-width: 100%; }
+    textarea { margin-top: 10px; }
+    label { display: block; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Генератор iFrame для аудиофайлов из облака</h2>
+  <label>
+    Вставьте ПРЯМОЙ URL аудиофайла (.mp3, .ogg, ...):
+    <input type="text" id="directurl" placeholder="https://....mp3" />
+  </label>
+  <button onclick="generate()">Получить embed-код</button>
+  <textarea id="code" rows="4" readonly placeholder="Тут появится код"></textarea>
+  <script>
+    function generate() {
+      var fileurl = document.getElementById('directurl').value.trim();
+      if(!fileurl) {
+        document.getElementById('code').value = 'Вставьте прямую ссылку!';
+        return;
+      }
+      var html = '<audio controls src="' + fileurl + '" style="width:100%;"></audio>';
+      document.getElementById('code').value = html;
+    }
+  </script>
+</body>
+</html>
