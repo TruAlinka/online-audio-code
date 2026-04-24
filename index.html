@@ -2,31 +2,40 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Генератор iFrame из любого URL</title>
+  <title>Генератор Embed-iFrame для аудио/видео из облака</title>
   <style>
-    body { font-family: sans-serif; }
-    input, textarea { width: 500px; max-width: 100%; }
-    textarea { margin-top: 10px; }
-    label { display: block; margin-top: 20px; }
+    input, select, textarea { width: 400px; max-width: 100%; margin-top: 10px;}
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    button { margin-top: 10px; }
   </style>
 </head>
 <body>
-  <h2>Генератор iFrame для аудиофайлов из облака</h2>
+  <h2>Генератор iframe для аудио/видео из облака</h2>
   <label>
-    Вставьте ПРЯМОЙ URL аудиофайла (.mp3, .ogg, ...):
-    <input type="text" id="directurl" placeholder="https://....mp3" />
+    <span>Вид:</span>
+    <select id="type">
+      <option value="audio">Аудио</option>
+      <option value="video">Видео</option>
+    </select>
   </label>
-  <button onclick="generate()">Получить embed-код</button>
-  <textarea id="code" rows="4" readonly placeholder="Тут появится код"></textarea>
+  <label>
+    <span>Прямая ссылка (mp3/mp4):</span>
+    <input type="text" id="link" placeholder="https://....mp3"/>
+  </label>
+  <button onclick="getCode()">Получить embed-код</button>
+  <textarea id="code" rows="4" readonly placeholder="Здесь появится код"></textarea>
   <script>
-    function generate() {
-      var fileurl = document.getElementById('directurl').value.trim();
-      if(!fileurl) {
-        document.getElementById('code').value = 'Вставьте прямую ссылку!';
+    function getCode() {
+      const type = document.getElementById('type').value;
+      const src = encodeURIComponent(document.getElementById('link').value.trim());
+      if (!src || src === 'https://....mp3') {
+        document.getElementById('code').value = 'Введите ссылку на файл!';
         return;
       }
-      var html = '<audio controls src="' + fileurl + '" style="width:100%;"></audio>';
-      document.getElementById('code').value = html;
+      const url = `https://trualinka.github.io/audio-editor/embed.html?type=${type}&src=${src}`;
+      let w = type === 'audio' ? 350 : 400;
+      let h = type === 'audio' ? 60 : 300;
+      document.getElementById('code').value = `<iframe src="${url}" width="${w}" height="${h}"></iframe>`;
     }
   </script>
 </body>
